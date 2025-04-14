@@ -1,4 +1,5 @@
 from contacts import Contact
+from address_book import AddressBook   
 import re
 
 def validate_contact(func):
@@ -11,7 +12,7 @@ def validate_contact(func):
         if not re.match(r"^[A-Za-z]{2,}$", details['last_name']):
             raise ValueError("Last name must contain only letters and be at least 2 characters long.")
         
-        if not re.match(r"^[\w\.-_]+@[\w\.-]+\.\w$", details['email']):
+        if not re.match(r"^[\w\.-]+@[\w\.-]+\.\w{2,}$", details['email']):
             raise ValueError("Invalid email format.")
         
         if not re.match(r"^\+?\d{10,12}$", details['phone_number']):
@@ -41,7 +42,6 @@ class AddressBookMain:
                 details["city"] = input("City: ")
                 details["state"] = input("State: ")
                 details["zip"] = input("Zip Code: ")
-
 
 
 if __name__ == "__main__":
