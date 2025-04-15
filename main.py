@@ -1,49 +1,44 @@
-from contacts import Contact
-from address_book import AddressBook   
-import re
-
-def validate_contact(func):
-    def wrapper(*args, **kwargs):
-        details = kwargs['details']
-
-        if not re.match(r"^[A-Za-z]{2,}$", details['first_name']):
-            raise ValueError("First name must contain only letters and be at least 2 characters long.")
-        
-        if not re.match(r"^[A-Za-z]{2,}$", details['last_name']):
-            raise ValueError("Last name must contain only letters and be at least 2 characters long.")
-        
-        if not re.match(r"^[\w\.-]+@[\w\.-]+\.\w{2,}$", details['email']):
-            raise ValueError("Invalid email format.")
-        
-        if not re.match(r"^\+?\d{10,12}$", details['phone_number']):
-            raise ValueError("Phone number must be 10 to 12 digits long.")
-        
-        return func(*args, **kwargs)
-    return wrapper
-
+from address_book import AddressBook
 
 class AddressBookMain:
     @staticmethod
-    def start():
-        print("Welcome to Address Book Program!!")
+    def start():  # addressing the user
+        print("\nWelcome to the Address Book Program!")
 
     @staticmethod
-    def menu():
-        option = input("Enter 'new' to add a new contact: ")
-        match option:
-            case "new":
-                details = {}
-                print("Enter contact details:")
-                details["first_name"] = input("First name: ")
-                details["last_name"] = input("Last name: ")
-                details["email"] = input("Email: ")
-                details["phone_number"] = input("Phone number: ")
-                details["address"] = input("Address: ")
-                details["city"] = input("City: ")
-                details["state"] = input("State: ")
-                details["zip"] = input("Zip Code: ")
+    def menu():  # menu for user to select options
+        print(f"\nMenu:\n1. Add new Contact\n2. Display Contacts\n3. Exit") # menu options
+        try:
+            option = int(input("Enter option: "))
+            match option:
+                case 1:  # add new contact
+                    details = {}
+                    print("\nEnter contact details:")
+                    details["first_name"] = input("First name: ")
+                    details["last_name"] = input("Last name: ")
+                    details["email"] = input("Email: ")
+                    details["phone_number"] = input("Phone number: ")
+                    details["address"] = input("Address: ")
+                    details["city"] = input("City: ")
+                    details["state"] = input("State: ")
+                    details["zip"] = input("Zip Code: ")
+                    address_book_name = input("\nPlease Enter Address Book Name: ") # getting address book name from user
+                    try:
+                        ab = AddressBook(address_book_name)  # crearing an instance of AddressBook class
+                        ab.add_contact(**details)  # adding contact to address book
+                    except ValueError as e: 
+                        print(e)
+                
+                case 2:
+                    pass
+
+                case 3: # to exit the program
+                    exit()  
+        except ValueError:
+            print("\nInvalid option. Please try again.")
 
 
 if __name__ == "__main__":
-    AddressBookMain.start()
-    AddressBookMain.menu()
+    AddressBookMain.start() # starting the program using the static method
+    while True:
+        AddressBookMain.menu()  # displaying the menu options and taking user input
