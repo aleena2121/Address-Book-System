@@ -11,9 +11,6 @@ class Contact:
 
     def __str__(self):
         return (
-            f"Name : {self.first_name} {self.last_name}\n"
-            f"Phone Number : {self.phone_number}\n"
-            f"Address : {self.address}, {self.city}, {self.state} - {self.zip}\n"
-            f"Email : {self.email}"
+            f"{self.first_name} {self.last_name} - {self.phone_number}, {self.address}, {self.city}, {self.state} - {self.zip}, {self.email}"
         )
 

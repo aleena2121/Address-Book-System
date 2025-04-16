@@ -13,8 +13,10 @@ def validate_contact(func):  # decorator function to validate contact details
             raise ValueError("\nInvalid email format.")
 
         if not re.match(r"(\+?[\d\s]{1,6})?\d{10}$", kwargs['phone_number']):
-            raise ValueError("\nPhone number must be 10 to 12 digits long.")
-
+            raise ValueError("\nPhone number must be 10 digits long and can have a country code.")
+        
+        if not re.match(r"^\d{6}$",kwargs['zip']):
+            raise ValueError("\nZip code can be only 6 digits long")
         return func(*args, **kwargs)
     return wrapper
 
@@ -36,4 +38,26 @@ class AddressBook:
             kwargs["email"]
         )
         self.contacts.append(contact)
-        print("Contact added successfully.")
+        print("\nContact added successfully.")
+    
+    def edit_contact(self, first_name, field, new_value, last_name=None):
+        for contact in self.contacts:
+            if contact.first_name == first_name:
+                if last_name is not None:
+                    if contact.last_name == last_name:
+                        setattr(contact, field, new_value)
+                        print("Contact edited!")
+                        return
+                else:
+                    setattr(contact, field, new_value)
+                    print("Contact edited!")
+                    return
+        print("Contact not found")
+
+    
+    def find_contact(self,first_name):
+        available_contacts = []
+        for contact in self.contacts:
+            if contact.first_name == first_name:
+                available_contacts.append([contact.first_name,contact.last_name])
+        return available_contacts
