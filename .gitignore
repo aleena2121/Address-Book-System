@@ -2,3 +2,5 @@
 /.pytest_cache
 /myenv
 /Pytest/__pycache__
+/Utils/__pycache__
+/Schema/__pycache__

@@ -1,13 +1,7 @@
 class Contact:
-    def __init__(self,first_name,last_name,phone_number,address,city,state,zip,email):
-        self.first_name = first_name
-        self.last_name = last_name
-        self.phone_number = phone_number
-        self.address = address
-        self.city = city
-        self.state = state
-        self.zip = zip
-        self.email = email
+    def __init__(self,**kwargs):
+        for arg,value in kwargs.items():
+            setattr(self, arg, value)  # unpacking all attributes
 
     def __str__(self):
         return (
