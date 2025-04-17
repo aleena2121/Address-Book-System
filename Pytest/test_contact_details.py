@@ -3,6 +3,7 @@ import os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))  # Adjust the path to the parent directory
 import pytest
 from address_book import AddressBook
+from address_book_system import AddressBookSystem
 
 
 @pytest.fixture
@@ -39,6 +40,14 @@ def sample_contact_book():
     Fixture to create address book object
     """
     return AddressBook("contacts")
+
+def test_add_multiple_address_books():
+    """
+    Test function to add multiple address books"""
+    ab = AddressBookSystem()
+    ab.add_address_book("Personal")
+    ab.add_address_book("Work")
+    assert len(ab.address_books) == 2
 
 def test_add_valid_contact(sample_contact_data,sample_contact_book): 
     """

@@ -21,13 +21,14 @@ class AddressBook:
         Args:
         **kwargs: Contact details
         """
+
         contact = Contact(**kwargs)  
         self.contacts.append(contact)
         print("\nContact added successfully.")
     
 
     @validate_contact.validate_contact
-    def edit_contact(self, first_name, field=None, new_value=None, last_name=None, **kwargs):
+    def edit_contact(self, first_name, field=None, new_value=None, last_name_=None, **kwargs):
         """
         Function to edit details for contact
         
@@ -44,8 +45,8 @@ class AddressBook:
         
         for contact in self.contacts:
             if contact.first_name == first_name:
-                if last_name is not None:
-                    if contact.last_name != last_name:
+                if last_name_ is not None:
+                    if contact.last_name != last_name_:
                         continue
                 
                 for attr, value in edit_kwargs.items():
