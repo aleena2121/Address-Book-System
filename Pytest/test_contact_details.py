@@ -16,18 +16,18 @@ def sample_contact_data():
         "last_name": "Mathews",
         "phone_number": "91 8329392930",
         "address": "123 Street",
-        "city": "Cityville",
-        "state": "Stateburg",
-        "zip": "603203",
+        "city": "Gurugram",
+        "state": "Haryana",
+        "zip": "122022",
         "email": "aleena@gmail.com"
         },
         {
         "first_name": "Aleena",
         "last_name": "Sara",
         "phone_number": "91 8329392930",
-        "address": "Abode",
+        "address": "345 Street",
         "city": "Chennai",
-        "state": "Tamil Nade",
+        "state": "Tamil Nadu",
         "zip": "602930",
         "email": "aleena@gmail.com"
         }
@@ -35,11 +35,27 @@ def sample_contact_data():
 
 @pytest.fixture
 def sample_contact_book():
+    """
+    Fixture to create address book object
+    """
     return AddressBook("contacts")
 
 def test_add_valid_contact(sample_contact_data,sample_contact_book): 
     """
     Test function to add a valid contact.
+    """
+    sample_contact_book.add_contact(**sample_contact_data[0])  # adding contacts to address book
+    
+    for contact in sample_contact_book.contacts:
+        print(contact)
+
+    assert len(sample_contact_book.contacts) == 1 # checking if contact is added
+    assert sample_contact_book.contacts[0].first_name == "Aleena"
+    assert sample_contact_book.contacts[0].last_name == "Mathews"
+
+def test_add_multiple_valid_contacts(sample_contact_data,sample_contact_book): 
+    """
+    Test function to add multiple valid contact.
     """
     for data in sample_contact_data:
         sample_contact_book.add_contact(**data)  # adding contacts to address book

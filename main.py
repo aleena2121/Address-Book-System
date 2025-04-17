@@ -42,14 +42,14 @@ class AddressBookMain:
         Fucntion to get input from user to add contact and to add it in address book
         """
         details = schema.ContactSchema(  # using the schema defined for contact class
-            first_name=input("First name: "),
-            last_name=input("Last name: "),
-            email=input("Email: "),
-            phone_number=input("Phone number: "),
-            address=input("Address: "),
-            city=input("City: "),
-            state=input("State: "),
-            zip=input("Zip Code: ")
+            first_name=input("First name: ").strip(),
+            last_name=input("Last name: ").strip(),
+            email=input("Email: ").strip(),
+            phone_number=input("Phone number: ").strip(),
+            address=input("Address: ").strip(),
+            city=input("City: ").strip(),
+            state=input("State: ").strip(),
+            zip=input("Zip Code: ").strip()
         )
         name = input("Please enter Address Book Name: ")  # getting address book name from user
         ab = AddressBookMain.system.get_address_book(name)

@@ -4,6 +4,12 @@ import re
 
 class AddressBook:
     def __init__(self, address_book_name):
+        """
+        Instanciates an address book object
+        
+        Args:
+        address_book_name: name of the address book
+        """
         self.address_book_name = address_book_name
         self.contacts = []
 
