@@ -14,13 +14,9 @@ class ContactSchema:  # schema for contact class
 
 def get_contact_details(schema_cls):
     """
-    Fucntion to get input from user
+    Function to get input from user
     """
     field_names = get_type_hints(schema_cls).keys()
-    input_data = {}
-
-    for field in field_names:
-        value = input(f"{field.replace('_', ' ').title()}: ").strip()
-        input_data[field] = value
+    input_data = {field : input(f"{field.replace('_', ' ').title()}: ").strip() for field in field_names}
 
     return schema_cls(**input_data)

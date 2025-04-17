@@ -76,6 +76,25 @@ def test_add_multiple_valid_contacts(sample_contact_data,sample_contact_book):
     assert sample_contact_book.contacts[0].first_name == "Aleena"
     assert sample_contact_book.contacts[1].last_name == "Sara"
 
+def test_add_duplicate_contact(sample_contact_book,sample_contact_data):
+    """
+    Test function to avoid adding duplicate name contacts"""
+    sample_contact_book.add_contact(**sample_contact_data[0])
+    contact2 = {
+        "first_name": "Aleena",
+        "last_name": "Mathews",  # contact with same first name and last name already added
+        "phone_number": "91 8329392930",
+        "address": "345 Street",
+        "city": "Chennai",
+        "state": "Tamil Nadu",
+        "zip": "602930",
+        "email": "aleena@gmail.com"
+        }
+    sample_contact_book.add_contact(**contact2)
+
+    assert len(sample_contact_book.contacts) == 1  # 2 == 1 as duplicate contact will not be added
+
+
 def test_add_invalid_contact(sample_contact_book):
     """
     Test function to add an invalid contact.

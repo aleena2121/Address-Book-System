@@ -17,7 +17,7 @@ class AddressBookMain:
         """
         Function to get the menu option input from user
         """
-        print("\nMenu:\n1. Add new Contact\n2. Display Contacts\n3. Edit Contact\n4. Delete Contact\n5. Add new Address Book\n6. Display all Address Books\n0. Exit")  # menu options for user
+        print("\nMenu:\n1. Add new Contact\n2. Display Contacts\n3. Edit Contact\n4. Delete Contact\n5. Add new Address Book\n6. Display all Address Books\n7. Delete Address Book\n0. Exit")  # menu options for user
         try:
             option = int(input("Enter option: "))
             if option == 1:
@@ -32,6 +32,8 @@ class AddressBookMain:
                 AddressBookMain.add_address_book()
             elif option == 6:
                 AddressBookMain.get_all_address_books()
+            elif option == 7:
+                AddressBookMain.delete_address_book()
             elif option == 0:  # exits the program
                 print("\nGoodbye!\n")
                 exit()
@@ -50,7 +52,7 @@ class AddressBookMain:
             print("\nCreate an address book to continue.")
             return
 
-        name = input("Please enter Address Book Name to add contact in: ")
+        name = input("\nPlease enter Address Book Name to add contact in: ")
         try:
             ab = AddressBookMain.system.get_address_book(name)
             details = schema.get_contact_details(schema.ContactSchema)
@@ -85,7 +87,7 @@ class AddressBookMain:
         """
         books = AddressBookMain.get_all_address_books()
         if not books:  # if no address book exists ask user to create one
-            print("Create an address book to continue.")
+            print("\nCreate an address book to continue.")
             return
 
         name = input("\nPlease enter Address Book Name where you want to edit the contact: ")
@@ -156,7 +158,6 @@ class AddressBookMain:
             contact = int(input("\nEnter the contact you want to delete from the above list: "))
             ab.delete_contact(first_name=first_name,last_name=available_contacts[contact-1][1])
 
-
     @staticmethod
     def add_address_book():
         """
@@ -165,6 +166,18 @@ class AddressBookMain:
         address_book_name = input("Enter name for address book: ")
         AddressBookMain.system.add_address_book(address_book_name)
     
+    @staticmethod
+    def delete_address_book():
+        """
+        
+        """
+        books = AddressBookMain.get_all_address_books()
+        if not books:
+            print("\nCreate an address book to continue.")
+            return
+        address_book_name = input("\nEnter name of address book to delete: ")
+        AddressBookMain.system.delete_address_book(address_book_name)
+
     @staticmethod
     def get_all_address_books():
         """

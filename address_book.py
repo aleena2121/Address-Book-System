@@ -22,7 +22,11 @@ class AddressBook:
         **kwargs: Contact details
         """
 
-        contact = Contact(**kwargs)  
+        contact = Contact(**kwargs)
+        available_contacts = self.find_contact(contact.first_name)
+        if [contact.first_name,contact.last_name] in available_contacts:
+            print(f"Contact with same name already exists!")
+            return
         self.contacts.append(contact)
         print("\nContact added successfully.")
     
