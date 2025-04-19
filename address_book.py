@@ -30,8 +30,12 @@ class AddressBook:
             print(f"Contact with same name already exists!")
             return
         self.contacts.append(contact)
-        self.people_in_city[contact.city] = contact
-        self.people_in_state[contact.state] = contact
+        if contact.city not in self.people_in_city:  # adding contact object to dictionary corresponding to city
+            self.people_in_city[contact.city] = [] 
+        self.people_in_city[contact.city].append(contact)
+        if contact.state not in self.people_in_state:   # adding contact object to dictionary corresponding to state
+            self.people_in_state[contact.state] = []
+        self.people_in_state[contact.state].append(contact)
         print("\nContact added successfully.")
     
 

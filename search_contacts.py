@@ -13,7 +13,10 @@ class SearchContacts(AddressBookSystem):
         for name, address_book in self.address_books.items():
             for key,contact in address_book.people_in_city.items():
                 if key.lower() == city.lower():
-                    search_results.append(contact)
+                    if isinstance(contact, list):
+                        search_results.extend(contact)
+                    else:
+                        search_results.append(contact)
 
         return search_results
     
@@ -25,6 +28,9 @@ class SearchContacts(AddressBookSystem):
         for name, address_book in self.address_books.items():
             for key,contact in address_book.people_in_state.items():
                 if key.lower() == state.lower():
-                    search_results.append(contact)
+                    if isinstance(contact, list):
+                        search_results.extend(contact)
+                    else:
+                        search_results.append(contact)
 
         return search_results

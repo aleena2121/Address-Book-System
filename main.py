@@ -208,11 +208,12 @@ class AddressBookMain:
             return
         
         city = input("\nEnter city to search contacts: ")
-        searcher = SearchContacts()
-        searcher.address_books = AddressBookMain.system.get_all_address_books()
+        searcher = SearchContacts() # creating an object of search class
+        searcher.address_books = AddressBookMain.system.get_all_address_books()  # passing all address books to search object
         results = searcher.search_in_all_address_books_by_city(city)
         if results:
             print("\nSearch Results:")
+            print(f"{len(results)} contacts found")
             for i,contact in enumerate(results,1):
                 print(f"{i}. {contact}")
         else:
@@ -230,11 +231,12 @@ class AddressBookMain:
             return
         
         state = input("\nEnter state to search contacts: ")
-        searcher = SearchContacts()
-        searcher.address_books = AddressBookMain.system.get_all_address_books()
+        searcher = SearchContacts()  # creating an object of search class
+        searcher.address_books = AddressBookMain.system.get_all_address_books()  # passing all address books to search object
         results = searcher.search_in_all_address_books_by_state(state)
         if results:
             print("\nSearch Results:")
+            print(f"\n{len(results)} contacts found")
             for i,contact in enumerate(results,1):
                 print(f"{i}. {contact}")
         else:
