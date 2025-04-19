@@ -1,10 +1,12 @@
 import sys
 import os
+
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))  # Adjust the path to the parent directory
 import pytest
 from address_book import AddressBook
 from address_book_system import AddressBookSystem
-
+from search_contacts import SearchContacts
+from main import AddressBookMain
 
 @pytest.fixture
 def sample_contact_data(): 
@@ -147,3 +149,15 @@ def test_delete_contact(sample_contact_book,sample_contact_data):
     sample_contact_book.delete_contact("Aleena","Sara")
     assert len(sample_contact_book.contacts) == 1
 
+def test_search_all_address_books(sample_contact_data,sample_contact_book):
+    """
+    Test Function to search accross all address books
+    """
+    for data in sample_contact_data:
+        sample_contact_book.add_contact(**data)
+    
+    searcher = SearchContacts()
+    AddressBookMain.system.address_books["TestBook"] = sample_contact_book
+    searcher.address_books = AddressBookMain.get_all_address_books()
+    results = searcher.search_in_all_address_books("Chennai")  
+    assert len(results) == 1
