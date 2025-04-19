@@ -17,7 +17,7 @@ class AddressBookMain:
         """
         Function to get the menu option input from user
         """
-        print("\nMenu:\n1. Add new Contact\n2. Display Contacts\n3. Edit Contact\n4. Delete Contact\n5. Add new Address Book\n6. Display all Address Books\n7. Delete Address Book\n8. Search by City/State\n0. Exit")  # menu options for user
+        print("\nMenu:\n1. Add new Contact\n2. Display Contacts\n3. Edit Contact\n4. Delete Contact\n5. Add new Address Book\n6. Display all Address Books\n7. Delete Address Book\n8. Search by City\n9. Search by State\n0. Exit")  # menu options for user
         try:
             option = int(input("Enter option: "))
             if option == 1:
@@ -35,7 +35,9 @@ class AddressBookMain:
             elif option == 7:
                 AddressBookMain.delete_address_book()
             elif option == 8:
-                AddressBookMain.search_all_address_books()
+                AddressBookMain.search_all_address_books_by_city()
+            elif option == 9:
+                AddressBookMain.search_all_address_books_by_state()
             elif option == 0:  # exits the program
                 print("\nGoodbye!\n")
                 exit()
@@ -195,9 +197,9 @@ class AddressBookMain:
             print("\nNo Address Book found")
 
     @staticmethod
-    def search_all_address_books():
+    def search_all_address_books_by_city():
         """
-        Function to search by city or state accross all address books
+        Function to search by city accross all address books
         """
         from search_contacts import SearchContacts
         books = AddressBookMain.get_all_address_books()
@@ -205,16 +207,38 @@ class AddressBookMain:
             print("\nCreate an address book to continue.")
             return
         
-        city_or_state = input("\nEnter city or state to search contacts: ")
+        city = input("\nEnter city to search contacts: ")
         searcher = SearchContacts()
         searcher.address_books = AddressBookMain.system.get_all_address_books()
-        results = searcher.search_in_all_address_books(city_or_state)
+        results = searcher.search_in_all_address_books_by_city(city)
         if results:
             print("\nSearch Results:")
             for i,contact in enumerate(results,1):
                 print(f"{i}. {contact}")
         else:
-            print(f"\nNo contacts found in {city_or_state}.")
+            print(f"\nNo contacts found in {city}.")
+    
+    @staticmethod
+    def search_all_address_books_by_state():
+        """
+        Function to search by state accross all address books
+        """
+        from search_contacts import SearchContacts
+        books = AddressBookMain.get_all_address_books()
+        if not books:
+            print("\nCreate an address book to continue.")
+            return
+        
+        state = input("\nEnter state to search contacts: ")
+        searcher = SearchContacts()
+        searcher.address_books = AddressBookMain.system.get_all_address_books()
+        results = searcher.search_in_all_address_books_by_state(state)
+        if results:
+            print("\nSearch Results:")
+            for i,contact in enumerate(results,1):
+                print(f"{i}. {contact}")
+        else:
+            print(f"\nNo contacts found in {state}.")
 
                 
 if __name__ == "__main__":

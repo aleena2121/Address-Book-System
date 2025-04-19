@@ -12,6 +12,8 @@ class AddressBook:
         """
         self.address_book_name = address_book_name
         self.contacts = []
+        self.people_in_city = {}
+        self.people_in_state = {}
 
     @validate_contact.validate_contact
     def add_contact(self, **kwargs):
@@ -28,6 +30,8 @@ class AddressBook:
             print(f"Contact with same name already exists!")
             return
         self.contacts.append(contact)
+        self.people_in_city[contact.city] = contact
+        self.people_in_state[contact.state] = contact
         print("\nContact added successfully.")
     
 

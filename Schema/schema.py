@@ -8,8 +8,8 @@ class ContactSchema:  # schema for contact class
     email : str
     phone_number : str
     address : str
-    state : str
     city : str
+    state : str
     zip : str
 
 def get_contact_details(schema_cls):

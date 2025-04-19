@@ -151,7 +151,7 @@ def test_delete_contact(sample_contact_book,sample_contact_data):
 
 def test_search_all_address_books(sample_contact_data,sample_contact_book):
     """
-    Test Function to search accross all address books
+    Test Function to search accross all address books by city or state
     """
     for data in sample_contact_data:
         sample_contact_book.add_contact(**data)
@@ -159,5 +159,16 @@ def test_search_all_address_books(sample_contact_data,sample_contact_book):
     searcher = SearchContacts()
     AddressBookMain.system.address_books["TestBook"] = sample_contact_book
     searcher.address_books = AddressBookMain.get_all_address_books()
-    results = searcher.search_in_all_address_books("Chennai")  
-    assert len(results) == 1
+    results_by_city = searcher.search_in_all_address_books_by_city("Chennai") 
+    results_by_state  = searcher.search_in_all_address_books_by_state("Haryana") 
+    assert len(results_by_city) == 1
+    assert len(results_by_state) == 1
+
+def test_add_to_dictionary_by_city_and_state(sample_contact_book,sample_contact_data):
+    """
+    Test function to check if dictionary is maintained by city and state
+    """
+    for data in sample_contact_data:
+        sample_contact_book.add_contact(**data)
+    
+    assert len(sample_contact_book.people_in_city) == 2
