@@ -78,8 +78,9 @@ class AddressBookMain:
         name = input("\nEnter Address Book Name to display contacts from: ")
         ab = AddressBookMain.system.get_address_book(name)
         if ab.contacts:
+            sorted_contacts = sorted(ab.contacts, key=lambda c: c.first_name.lower())  # sort all contacts alphabetically
             print(f"\nContacts in {ab.address_book_name}: ")
-            for contact in ab.contacts:
+            for contact in sorted_contacts:
                 print(contact)
         else:
             print("No contacts found.")
@@ -208,9 +209,10 @@ class AddressBookMain:
             return
         
         city = input("\nEnter city to search contacts: ")
-        searcher = SearchContacts() # creating an object of search class
+        searcher = SearchContacts()  # creating an object of search class
         searcher.address_books = AddressBookMain.system.get_all_address_books()  # passing all address books to search object
         results = searcher.search_in_all_address_books_by_city(city)
+        results = sorted(results, key=lambda c: c.first_name.lower())  # sort search results aphabetically
         if results:
             print("\nSearch Results:")
             print(f"{len(results)} contacts found")
@@ -234,6 +236,7 @@ class AddressBookMain:
         searcher = SearchContacts()  # creating an object of search class
         searcher.address_books = AddressBookMain.system.get_all_address_books()  # passing all address books to search object
         results = searcher.search_in_all_address_books_by_state(state)
+        results = sorted(results, key=lambda c: c.first_name.lower())  # sort search results aphabetically
         if results:
             print("\nSearch Results:")
             print(f"\n{len(results)} contacts found")
