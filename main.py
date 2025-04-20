@@ -17,7 +17,7 @@ class AddressBookMain:
         """
         Function to get the menu option input from user
         """
-        print("\nMenu:\n1. Add new Contact\n2. Display Contacts\n3. Edit Contact\n4. Delete Contact\n5. Add new Address Book\n6. Display all Address Books\n7. Delete Address Book\n8. Search by City\n9. Search by State\n0. Exit")  # menu options for user
+        print("\nMenu:\n1. Add new Contact\n2. Display Contacts\n3. Edit Contact\n4. Delete Contact\n5. Add new Address Book\n6. Display all Address Books\n7. Delete Address Book\n8. Search by City\n9. Search by State\n10. Sort by Location\n0. Exit")  # menu options for user
         try:
             option = int(input("Enter option: "))
             if option == 1:
@@ -38,6 +38,8 @@ class AddressBookMain:
                 AddressBookMain.search_all_address_books_by_city()
             elif option == 9:
                 AddressBookMain.search_all_address_books_by_state()
+            elif option == 10:
+                AddressBookMain.sort_by_location()
             elif option == 0:  # exits the program
                 print("\nGoodbye!\n")
                 exit()
@@ -244,6 +246,44 @@ class AddressBookMain:
                 print(f"{i}. {contact}")
         else:
             print(f"\nNo contacts found in {state}.")
+
+    
+    @staticmethod
+    def sort_by_location():
+        """
+        Function to sort contacts by city, state, or zip in a selected or all address books
+        """
+        books = AddressBookMain.system.get_all_address_books()
+        if not books:
+            print("\nCreate an address book to continue.")
+            return
+
+        print("\nSelect an Address Book:")
+        print("0. All Address Books") # to sort contacts in all the address books
+        book_list = list(books.keys())
+        for i, book_name in enumerate(book_list, 1):
+            print(f"{i}. {book_name}")
+
+        choice = int(input("Enter your choice: "))  # to sort through a particular address book
+        selected_books = book_list if choice == 0 else [book_list[choice - 1]]
+
+        print("\nSort by:\n1. City\n2. State\n3. Zip Code")
+        sort_choice = int(input("Enter your choice: "))
+        sort_key = ['city', 'state', 'zip'][sort_choice - 1]
+
+        all_contacts = []
+        for book_name in selected_books:
+            book = books[book_name]
+            all_contacts.extend(book.contacts)
+
+        if not all_contacts:
+            print("No contacts found.")
+            return
+
+        sorted_contacts = sorted(all_contacts, key=lambda c: getattr(c, sort_key))  # sorting according to input provided
+        print(f"\nSorted Contacts by {sort_key.title()}:")
+        for contact in sorted_contacts:
+            print(contact)
 
                 
 if __name__ == "__main__":
