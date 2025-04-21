@@ -1,3 +1,4 @@
+import csv
 from Utils import validate_contact
 from contacts import Contact
 
@@ -110,10 +111,22 @@ class AddressBook:
         FUnction to save contacts to text file
 
         Args: 
-        filename: file name containing date-time stamp to create unique file
+        filename: file name containing address book name to create unique file
         """
-        with open(filename, "a", encoding="utf-8") as f:
-                f.write(f"\n{self.address_book_name}")
+        with open(filename, "w", encoding="utf-8") as f:
                 for i,contact in enumerate(self.contacts,1):
-                    f.write(f"\n{i}. {str(contact)}") 
+                    f.write(f"{i}. {str(contact)}\n") 
                 print("Saved to file succesfully!")
+    
+    def save_to_csv_file(self,filename):
+        """
+        FUnction to save contacts to text file
+
+        Args: 
+        filename: file name containing address book name to create unique file
+        """
+        field_names = ["first_name", "last_name","email","phone_number","address","city","state", "zip"]
+        with open(filename, "w", newline='') as f:
+                writer = csv.DictWriter(f, fieldnames=field_names)
+                writer.writeheader()
+                writer.writerows([contact.to_dict() for contact in self.contacts])

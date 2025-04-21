@@ -182,7 +182,7 @@ def test_save_to_txt_file(sample_contact_book,sample_contact_data):
     
     sample_contact_book.save_to_text_file("file.txt")
 
-    with open("file.txt","r") as file: 
+    with open("contacts.txt","r") as file: 
         content = file.read()  # reading file content
     
     assert "Aleena" in content  # checking if contact is added to file or not

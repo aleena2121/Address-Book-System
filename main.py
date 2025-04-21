@@ -18,7 +18,7 @@ class AddressBookMain:
         """
         Function to get the menu option input from user
         """
-        print("\nMenu:\n1. Add new Contact\n2. Display Contacts\n3. Edit Contact\n4. Delete Contact\n5. Add new Address Book\n6. Display all Address Books\n7. Delete Address Book\n8. Search by City\n9. Search by State\n10. Sort by Location\n11. Save Contacts to File\n0. Exit")  # menu options for user
+        print("\nMenu:\n1. Add new Contact\n2. Display Contacts\n3. Edit Contact\n4. Delete Contact\n5. Add new Address Book\n6. Display all Address Books\n7. Delete Address Book\n8. Search by City\n9. Search by State\n10. Sort by Location\n11. Save Contacts to File\n12. Read Contacts from a File\n0. Exit")  # menu options for user
         try:
             option = int(input("Enter option: "))
             if option == 1:
@@ -43,6 +43,8 @@ class AddressBookMain:
                 AddressBookMain.sort_by_location()
             elif option == 11:
                 AddressBookMain.save_to_file()
+            elif option == 12:
+                AddressBookMain.read_contacts_from_file()
             elif option == 0:  # exits the program
                 print("\nGoodbye!\n")
                 exit()
@@ -295,7 +297,7 @@ class AddressBookMain:
             print("\nCreate an address book to continue.")
             return
 
-        print("\nSelect option to save file: \n1. Text File")
+        print("\nSelect option to save file: \n1. Text File\n2. CSV File")
         save_file_to = int(input("\nEnter Choice: "))
         print("\nSelect an Address Book:")
         print("0. All Address Books") # to sort contacts in all the address books
@@ -307,12 +309,39 @@ class AddressBookMain:
         selected_books = book_list if choice == 0 else [book_list[choice - 1]]
 
         if save_file_to == 1:   # save to .txt file
-            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")   # getting timestamp to create unique file everytime
-            filename = f"contacts_{timestamp}.txt"
             for book_name in selected_books:
+                filename = f"{book_name}.txt"
                 address_book = books[book_name]
                 address_book.save_to_text_file(filename)
-                
+        
+        elif save_file_to == 2:  # save to csv file
+            for book_name in selected_books:
+                filename = f"{book_name}.csv"
+                address_book = books[book_name]
+                address_book.save_to_csv_file(filename)
+        
+    @staticmethod
+    def read_contacts_from_file():
+        """
+        Function to read contacts from a file
+        """
+        books = AddressBookMain.system.get_all_address_books()
+        if not books:
+            print("\nCreate an address book to continue.")
+            return
+
+        file_name = input("\nEnter file name to read: ")
+
+        try:
+            print(f"\nContent in {file_name}:")
+            with open(file_name,"r") as file:
+                contacts = file.readlines()
+        except FileNotFoundError:
+            print("\nFile not found, Try again")
+        
+        for contact in contacts:
+            print(contact)
+        
 if __name__ == "__main__":
     AddressBookMain.start() # starting the program using the static method
     while True:
