@@ -297,7 +297,7 @@ class AddressBookMain:
             print("\nCreate an address book to continue.")
             return
 
-        print("\nSelect option to save file: \n1. Text File\n2. CSV File")
+        print("\nSelect option to save file: \n1. Text File\n2. CSV File\n3. JSON File")
         save_file_to = int(input("\nEnter Choice: "))
         print("\nSelect an Address Book:")
         print("0. All Address Books") # to sort contacts in all the address books
@@ -319,6 +319,12 @@ class AddressBookMain:
                 filename = f"{book_name}.csv"
                 address_book = books[book_name]
                 address_book.save_to_csv_file(filename)
+
+        elif save_file_to == 3:  # save to json file
+            for book_name in selected_books:
+                filename = f"{book_name}.json"
+                address_book = books[book_name]
+                address_book.save_to_json_file(filename)
         
     @staticmethod
     def read_contacts_from_file():

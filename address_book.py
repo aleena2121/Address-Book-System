@@ -1,4 +1,5 @@
 import csv
+import json
 from Utils import validate_contact
 from contacts import Contact
 
@@ -130,3 +131,14 @@ class AddressBook:
                 writer = csv.DictWriter(f, fieldnames=field_names)
                 writer.writeheader()
                 writer.writerows([contact.to_dict() for contact in self.contacts])
+
+    def save_to_json_file(self,filename):
+        """
+        FUnction to save contacts to text file
+
+        Args: 
+        filename: file name containing address book name to create unique file
+        """
+        with open(filename, "w") as f:
+                json.dump([contact.to_dict() for contact in self.contacts],f,indent=4)
+                print("Saved to file succesfully!")

@@ -180,9 +180,37 @@ def test_save_to_txt_file(sample_contact_book,sample_contact_data):
     for data in sample_contact_data:
         sample_contact_book.add_contact(**data)
     
-    sample_contact_book.save_to_text_file("file.txt")
+    sample_contact_book.save_to_text_file("contacts.txt")
 
     with open("contacts.txt","r") as file: 
+        content = file.read()  # reading file content
+    
+    assert "Aleena" in content  # checking if contact is added to file or not
+
+def test_save_to_csv_file(sample_contact_book,sample_contact_data):
+    """
+    Test function to check if contacts are saved in csv file
+    """
+    for data in sample_contact_data:
+        sample_contact_book.add_contact(**data)
+    
+    sample_contact_book.save_to_csv_file("contacts.csv")
+
+    with open("contacts.csv","r") as file: 
+        content = file.read()  # reading file content
+    
+    assert "Aleena" in content  # checking if contact is added to file or not
+
+def test_save_to_json_file(sample_contact_book,sample_contact_data):
+    """
+    Test function to check if contacts are saved in json file
+    """
+    for data in sample_contact_data:
+        sample_contact_book.add_contact(**data)
+    
+    sample_contact_book.save_to_json_file("contacts.json")
+
+    with open("contacts.json","r") as file: 
         content = file.read()  # reading file content
     
     assert "Aleena" in content  # checking if contact is added to file or not
