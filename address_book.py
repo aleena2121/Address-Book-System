@@ -1,6 +1,5 @@
 from Utils import validate_contact
 from contacts import Contact
-import re
 
 class AddressBook:
     def __init__(self, address_book_name):
@@ -105,3 +104,16 @@ class AddressBook:
                     print("Contact deleted!")
                     return
         print("Contact not found")
+
+    def save_to_text_file(self,filename):
+        """
+        FUnction to save contacts to text file
+
+        Args: 
+        filename: file name containing date-time stamp to create unique file
+        """
+        with open(filename, "a", encoding="utf-8") as f:
+                f.write(f"\n{self.address_book_name}")
+                for i,contact in enumerate(self.contacts,1):
+                    f.write(f"\n{i}. {str(contact)}") 
+                print("Saved to file succesfully!")

@@ -172,3 +172,17 @@ def test_add_to_dictionary_by_city_and_state(sample_contact_book,sample_contact_
         sample_contact_book.add_contact(**data)
     
     assert len(sample_contact_book.people_in_city) == 2
+
+def test_save_to_txt_file(sample_contact_book,sample_contact_data):
+    """
+    Test function to check if contacts are saved in txt file
+    """
+    for data in sample_contact_data:
+        sample_contact_book.add_contact(**data)
+    
+    sample_contact_book.save_to_text_file("file.txt")
+
+    with open("file.txt","r") as file: 
+        content = file.read()  # reading file content
+    
+    assert "Aleena" in content  # checking if contact is added to file or not

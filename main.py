@@ -1,6 +1,7 @@
 from address_book import AddressBook
 from address_book_system import AddressBookSystem
 from Schema import schema
+from datetime import datetime
 
 class AddressBookMain:
     system = AddressBookSystem()  # Use AddressBookSystem to manage all address books
@@ -17,7 +18,7 @@ class AddressBookMain:
         """
         Function to get the menu option input from user
         """
-        print("\nMenu:\n1. Add new Contact\n2. Display Contacts\n3. Edit Contact\n4. Delete Contact\n5. Add new Address Book\n6. Display all Address Books\n7. Delete Address Book\n8. Search by City\n9. Search by State\n10. Sort by Location\n0. Exit")  # menu options for user
+        print("\nMenu:\n1. Add new Contact\n2. Display Contacts\n3. Edit Contact\n4. Delete Contact\n5. Add new Address Book\n6. Display all Address Books\n7. Delete Address Book\n8. Search by City\n9. Search by State\n10. Sort by Location\n11. Save Contacts to File\n0. Exit")  # menu options for user
         try:
             option = int(input("Enter option: "))
             if option == 1:
@@ -40,6 +41,8 @@ class AddressBookMain:
                 AddressBookMain.search_all_address_books_by_state()
             elif option == 10:
                 AddressBookMain.sort_by_location()
+            elif option == 11:
+                AddressBookMain.save_to_file()
             elif option == 0:  # exits the program
                 print("\nGoodbye!\n")
                 exit()
@@ -284,7 +287,31 @@ class AddressBookMain:
         print(f"\nSorted Contacts by {sort_key.title()}:")
         for contact in sorted_contacts:
             print(contact)
+    
+    @staticmethod
+    def save_to_file():
+        books = AddressBookMain.system.get_all_address_books()
+        if not books:
+            print("\nCreate an address book to continue.")
+            return
 
+        print("\nSelect option to save file: \n1. Text File")
+        save_file_to = int(input("\nEnter Choice: "))
+        print("\nSelect an Address Book:")
+        print("0. All Address Books") # to sort contacts in all the address books
+        book_list = list(books.keys())
+        for i, book_name in enumerate(book_list, 1):
+            print(f"{i}. {book_name}")
+
+        choice = int(input("\nEnter your choice: "))  # to sort through a particular address book
+        selected_books = book_list if choice == 0 else [book_list[choice - 1]]
+
+        if save_file_to == 1:   # save to .txt file
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")   # getting timestamp to create unique file everytime
+            filename = f"contacts_{timestamp}.txt"
+            for book_name in selected_books:
+                address_book = books[book_name]
+                address_book.save_to_text_file(filename)
                 
 if __name__ == "__main__":
     AddressBookMain.start() # starting the program using the static method
