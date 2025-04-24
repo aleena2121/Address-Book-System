@@ -5,3 +5,6 @@
 /Utils/__pycache__
 /Schema/__pycache__
 /venv
+/config
+/Database/__pycache__
+/Operations/__pycache__

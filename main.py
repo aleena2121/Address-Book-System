@@ -1,7 +1,10 @@
+from Database.connection import connect_db
 from address_book import AddressBook
 from address_book_system import AddressBookSystem
 from Schema import schema
 from datetime import datetime
+
+from database_setup import create_database
 
 class AddressBookMain:
     system = AddressBookSystem()  # Use AddressBookSystem to manage all address books
@@ -12,6 +15,13 @@ class AddressBookMain:
         static method to greet the user
         """
         print("\nWelcome to the Address Book Program!")
+        create_database()  # creating database
+        conn = connect_db()  # checking connecting to database
+        if conn:
+            print("Connected to AddressBookDB.")
+            conn.close()
+        else:
+            print("Failed to connect to database.")
 
     @staticmethod
     def menu():
@@ -198,7 +208,7 @@ class AddressBookMain:
         books = AddressBookMain.system.get_all_address_books()
         if books:
             print(f"\nAddress Books - ")
-            for i, book_name in enumerate(books.keys(), 1):
+            for i, book_name in enumerate(books, 1):
                 print(f"{i}. {book_name}")
             return books
         else:
