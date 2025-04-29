@@ -2,6 +2,7 @@ import csv
 import json
 from Utils import validate_contact
 from contacts import Contact
+from Operations import queries
 
 class AddressBook:
     def __init__(self, address_book_name):
@@ -12,7 +13,7 @@ class AddressBook:
         address_book_name: name of the address book
         """
         self.address_book_name = address_book_name
-        self.contacts = []
+        self.contacts = queries.get_contacts(self.address_book_name)
         self.people_in_city = {}
         self.people_in_state = {}
 
@@ -31,12 +32,21 @@ class AddressBook:
             print(f"Contact with same name already exists!")
             return
         self.contacts.append(contact)
+
         if contact.city not in self.people_in_city:  # adding contact object to dictionary corresponding to city
             self.people_in_city[contact.city] = [] 
         self.people_in_city[contact.city].append(contact)
         if contact.state not in self.people_in_state:   # adding contact object to dictionary corresponding to state
             self.people_in_state[contact.state] = []
         self.people_in_state[contact.state].append(contact)
+        
+        address_book_id = queries.get_address_book_id(self.address_book_name)
+        if address_book_id is None:
+            print(f"Address book '{self.name}' not found in database.")
+            return
+        kwargs['address_book_id'] = address_book_id
+
+        queries.create_and_insert('contact',**kwargs)
         print("\nContact added successfully.")
     
 
@@ -48,14 +58,18 @@ class AddressBook:
         Args:
         first_name: first name of contact to edit
         field: field to be editted
-        new_value: new value to be addes
+        new_value: new value to be added
         last_name: last name of contact to be edited, if there exists multiple people with same first name
         kwargs: passing field, new value pair
         """
         edit_kwargs = kwargs.copy()
         if field and new_value:
             edit_kwargs[field] = new_value
-        
+
+        if not field and not new_value:
+            field, new_value = list(edit_kwargs.items())[0] 
+        queries.edit_contacts(field=field,new_value=new_value,first_name=first_name,last_name=last_name_)
+
         for contact in self.contacts:
             if contact.first_name == first_name:
                 if last_name_ is not None:
@@ -66,7 +80,6 @@ class AddressBook:
                     setattr(contact, attr, value)   # editing the values
                 print("Contact edited!")
                 return
-        
         print("Contact not found")
 
     
@@ -98,10 +111,14 @@ class AddressBook:
             if contact.first_name == first_name:
                 if last_name is not None:
                     if contact.last_name == last_name:
+                        id = queries.get_contact_id(first_name,last_name)
+                        queries.delete_from_table('contact',id = id)
                         self.contacts.remove(contact)
                         print("Contact deleted!")
                         return
                 else:
+                    id = queries.get_contact_id(first_name,contact.last_name)
+                    queries.delete_from_table('contact',id = id)
                     self.contacts.remove(contact)
                     print("Contact deleted!")
                     return
