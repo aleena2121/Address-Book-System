@@ -8,3 +8,9 @@
 /config
 /Database/__pycache__
 /Operations/__pycache__
+/Operations/__init__.py
+/Generate_Data/__pycache__
+/Generate_Data/contacts.json
+/Generate_Data/work_contacts.csv
+/Generate_Data/family_contacts.csv
+/Generate_Data/friends_contacts.csv
